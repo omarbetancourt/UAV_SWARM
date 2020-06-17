@@ -6,7 +6,9 @@
 class Swarm
 {
 public:
-	void Init(float in_x, float in_y, float in_vx, float in_vy);
+	Swarm();
+	Swarm(float in_x, float in_y, float in_vx, float in_vy);
+	~Swarm();
 	float GetX() const; //const because it wont change the state of the object. its just reading some value out
 	float GetY() const;
 	void Step();

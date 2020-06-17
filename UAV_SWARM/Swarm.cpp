@@ -1,13 +1,22 @@
 #include "Swarm.h"
 #include <cmath>
 
-void Swarm::Init(float in_x, float in_y, float in_vx, float in_vy) // the constructor. Parameters in () will be values passed in when constructing
+Swarm::Swarm()
+{
+}
+
+Swarm::Swarm(float in_x, float in_y, float in_vx, float in_vy) // the constructor. Parameters in () will be values passed in when constructing
 {
 	x = in_x; // RHS variable are the private data members below
 	y = in_y; // 'in'_y means initial
 	vx = in_vx;
 	vy = in_vy;
 }
+
+Swarm::~Swarm()
+{
+}
+
 
 float Swarm::GetX() const //getter function
 {
