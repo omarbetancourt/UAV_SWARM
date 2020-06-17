@@ -4,28 +4,31 @@
 #include "Obstacle.h"
 #include <fstream>
 #include "StartPositions.h"
+static constexpr unsigned int nSwarmMembers = 3u; //variable available at compile time to initialize size of array
+//static constexpr unsigned int nTargets = 1u;
+//static constexpr unsigned int nObstacles = 10u;
+
+void FillSwarmVector(std::vector<Swarm>&); // Declaration
+
+void FillSwarmVector(std::vector<Swarm>& swarms) // Definition
+{
+	for (unsigned int mem = 0; mem < nSwarmMembers; mem++) // Initializing pos and v for swarms. Later needs to be initialized with constructor instead of this Init function
+	{
+		Swarm swarm(xDist(rng), yDist(rng), vDist(rng), vDist(rng));
+		swarms.push_back(swarm);
+	}
+}
 
 
 
 
 int main()
 {
-	static constexpr int nSwarmMembers = 3u; //variable available at compile time to initialize size of array
-	static constexpr int nTargets = 1u;
-	static constexpr int nObstacles = 10u;
-
-	//Swarm swarms[nSwarmMembers];
-
 	std::vector<Swarm> swarms; // vector of objects. Initialized with size nSwarmMembers and entries ar all 0;
+	FillSwarmVector(swarms); //calling
+	//Swarm swarms[nSwarmMembers];
 	//Target targets[nTargets];
 	//Obstacle obstacles[nObstacles];
-
-	for (unsigned int mem = 0; mem < nSwarmMembers; mem++) // Initializing pos and v for swarms. Later needs to be initialized with constructor instead of this Init function
-	{
-		Swarm swarm(xDist(rng), yDist(rng), vDist(rng), vDist(rng));
-		swarms.push_back(swarm);
-	}
-
 
 	//for (int i = 0; i < nTargets; ++i) // Initializing pos and v for swarms. Later needs to be initialized with constructor instead of this Init function
 	//{
@@ -75,3 +78,4 @@ int main()
 	prntpos.close();
 
 }
+
