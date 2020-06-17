@@ -13,5 +13,3 @@ std::uniform_real_distribution<float> ytDist(0.0f, 100.0f); // add this block to
 
 std::uniform_real_distribution<float> xoDist(0.0f, 100.0f);
 std::uniform_real_distribution<float> yoDist(0.0f, 100.0f);
-
-

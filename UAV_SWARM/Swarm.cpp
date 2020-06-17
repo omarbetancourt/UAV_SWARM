@@ -44,6 +44,8 @@ float Swarm::WgtDirTar()
 
 	nhat_tx = (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt)) * nxt;
 	nhat_ty = (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt)) * nyt;
+	return 0.0;
+	// needs to return two numbers
 }
 
 void Swarm::SumWgtDirTar()

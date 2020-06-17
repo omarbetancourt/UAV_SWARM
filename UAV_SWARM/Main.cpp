@@ -7,7 +7,7 @@
 
 int main()
 {
-	static constexpr int nSwarmMembers = 1u; //variable available at compile time to initialize size of array
+	static constexpr int nSwarmMembers = 3u; //variable available at compile time to initialize size of array
 	static constexpr int nTargets = 1u;
 	static constexpr int nObstacles = 10u;
 
@@ -43,14 +43,14 @@ int main()
 
 	for (int sim_time = 1; sim_time < 10; ++sim_time) //time step. each iter is 0.001 sec
 	{
-		for (int swarmId = 0; swarmId < nSwarmMembers; ++swarmId)
-		{
-			for (int tarId = 0; tarId < nTargets; ++tarId)
-			{
-				swarms[swarmId].WgtDirTar();
-				prntpos << swarmId << " , " << sim_time << " , " << swarms[swarmId].WgtDirTar() << " , " << swarms[swarmId].GetY() << std::endl;
-			}
-		}
+		//for (int swarmId = 0; swarmId < nSwarmMembers; ++swarmId)
+		//{
+		//	for (int tarId = 0; tarId < nTargets; ++tarId)
+		//	{
+		//		//swarms[swarmId].WgtDirTar();
+		//		//prntpos << swarmId << " , " << sim_time << " , " << swarms[swarmId].WgtDirTar() << " , " << swarms[swarmId].GetY() << std::endl;
+		//	}
+		//}
 
 
 
@@ -58,7 +58,7 @@ int main()
 		for (int swarmId = 0; swarmId < nSwarmMembers; ++swarmId)
 		{
 			swarms[swarmId].Step();
-			//prntpos << swarmId << " , " << sim_time << " , " << swarms[swarmId].GetX() << " , " << swarms[swarmId].GetY() << std::endl;
+			prntpos << swarmId << " , " << sim_time << " , " << swarms[swarmId].GetX() << " , " << swarms[swarmId].GetY() << std::endl;
 		}
 
 
