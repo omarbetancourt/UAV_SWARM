@@ -8,15 +8,14 @@ class Swarm
 public:
 	Swarm(const Vec2& in_pos, const Vec2& in_vel);
 	~Swarm();
-
 	void DistTar(const Target& tar);
 	Vec2 DirTar(const Target& tar);
 	Vec2 WgtDirTar();
 	Vec2 GetPos() const; //To output to a file.
 	Vec2 GetWgtDirTar() const; // to set up Nmt
-	float GetWmt(); // to multiply to Nmt
+	float GetWmt() const; // to multiply to Nmt
 
-	void Step();
+	void Step(const Vec2& n_star);
 private:
 
 	//void DistObs();		//4.5
@@ -39,14 +38,10 @@ private:
 	Vec2 nt_ij;
 	Vec2 nhat_t;
 
-	static constexpr float dt = 1.0f; //needs to be changed to 0.001f later
+	static constexpr float dt = 0.001f; 
 	static constexpr float mass = 10.0f;
 	static constexpr float thrustForce = 10000000.0f;
-
-	static constexpr float
-		wt1 = 0.355f,
-		wt2 = 0.848f,
-		Wmt = 2.10f;
+	static constexpr float vel_max = 100.0f;
 
 	// Overall Weights:
 	//static constexpr float Wmo = 
@@ -68,4 +63,10 @@ private:
 	//static constexpr float b2 = 
 	//static constexpr float c1 = 
 	//static constexpr float c2 =
+
+public:
+	static constexpr float
+		wt1 = 0.355f,
+		wt2 = 0.848f,
+		Wmt = 2.10f;
 };
