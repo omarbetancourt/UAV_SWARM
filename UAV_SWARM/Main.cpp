@@ -7,8 +7,8 @@
 #include <fstream>
 
 static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time
-//static constexpr unsigned int nTargets = 1u;
-//static constexpr unsigned int nObstacles = 10u;
+static constexpr unsigned int nTargets = 1u;
+static constexpr unsigned int nObstacles = 10u;
 
 #include "StartPositions.h"
 

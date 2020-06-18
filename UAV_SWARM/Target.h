@@ -1,17 +1,18 @@
 #pragma once
 //#include "Swarm.h"
+#include "Vec2.h"
 
 class Target
 {
 public:
-	void Init(float in_x, float in_y);
+	Target();
+	Target(const Vec2& in_pos);
+	~Target();
 	//bool TestCollision(const Swarm& swarm)
 	bool IsMapped();
-	float GetX() const;
-	float GetY() const;
+	Vec2 GetPos() const;
 
 private:
-	float x;
-	float y;
+	Vec2 pos;
 	bool isMapped = false;
 };

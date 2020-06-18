@@ -1,9 +1,16 @@
 #include "Target.h"
 
-void Target::Init(float in_x, float in_y)
+Target::Target()
 {
-    x = in_x;
-    y = in_y;
+}
+
+Target::Target(const Vec2& in_pos)
+{
+    pos = in_pos;
+}
+
+Target::~Target()
+{
 }
 
 bool Target::IsMapped()
@@ -11,12 +18,7 @@ bool Target::IsMapped()
     return isMapped;
 }
 
-float Target::GetX() const
+Vec2 Target::GetPos() const
 {
-    return x;
-}
-
-float Target::GetY() const
-{
-    return y;
+    return pos;
 }
