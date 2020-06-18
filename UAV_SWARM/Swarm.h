@@ -12,18 +12,17 @@ public:
 
 	Vec2 GetPos() const; //const because it wont change the state of the object. its just reading some value out
 	Vec2 GetVel() const;
+	Vec2 GetDirTar() const;
+	float GetDmt();
 
-	
 	void Step();
-
 	void SumWgtDirTar();	//4.4
 	float WgtDirTar();		//4.3 public for now until SumWgtDirTar() works.
-	float GetDmt();
-	void DistTar(const Target& tar);//4.1 not const f, because modifies dmt2 (data member).
-
-private:
 	
-	//void DirTar();		//4.2 const Target& tar prob wont change tar properties
+	void DistTar(const Target& tar);//4.1 not const f, because modifies dmt2 (data member).
+	Vec2 DirTar(const Target& tar);		//4.2 const Target& tar prob wont change tar properties
+
+private:	
 	//void WgtDirTar();		//4.3
 
 
@@ -45,7 +44,7 @@ private:
 
 	float dmt;
 
-	float nxt, nyt;
+	Vec2 nt_ij;
 	float nhat_tx, nhat_ty;
 
 	static constexpr float dt = 1.0f; //needs to be changed to 0.001f later

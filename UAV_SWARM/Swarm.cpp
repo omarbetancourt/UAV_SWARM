@@ -26,27 +26,32 @@ Vec2 Swarm::GetVel() const
 	return vel;
 }
 
-void Swarm::Step()
+Vec2 Swarm::GetDirTar() const
+{
+	return nt_ij;
+}
+
+void Swarm::Step() //good
 {
 	pos += vel*dt;
 }
 
-float Swarm::GetDmt()
+float Swarm::GetDmt() //good
 {
 	return dmt;
 }
 
-void Swarm::DistTar(const Target& tar)
+void Swarm::DistTar(const Target& tar)// good
 {
 	const Vec2 delXY = tar.GetPos() - pos;
 	dmt = sqrt((pow(delXY.x, 2.0f) + pow(delXY.y, 2.0f)));
 }
 
-//void Swarm::DirTar()
-//{
-//	nxt = sqrt(dmtx2 / dmt2);
-//	nyt = sqrt(dmty2 / dmt2);
-//}
+Vec2 Swarm::DirTar(const Target& tar)
+{
+	const Vec2 delXY = tar.GetPos() - pos;
+	return nt_ij = delXY/dmt;
+}
 //
 //float Swarm::WgtDirTar()
 //{
