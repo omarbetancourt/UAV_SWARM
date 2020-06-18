@@ -25,12 +25,18 @@ int main()
 	prntpos.open ("swarmPositions.txt");
 
 
-	for (int sim_time = 1; sim_time < 10; ++sim_time) //time step. each iter is 0.001 sec
+	for (int sim_time = 0; sim_time < 1; ++sim_time) //time step. each iter is 0.001 sec
 	{
-		for (unsigned int member = 0; member < swarms.size(); member++)
+		for (unsigned int mem = 0; mem < swarms.size(); mem++)
 		{
-			swarms[member].Step();
-			prntpos << " , " << swarms[member].GetVel().x << " , " << swarms[member].GetVel().y << " , " << swarms[member].GetPos().x << " , " << swarms[member].GetPos().y << std::endl;
+			for (unsigned int tar = 0; tar < targets.size(); tar++)
+			{
+				swarms[mem].DistTar(targets[tar]);
+				//swarms[mem].Step();
+				prntpos << targets[tar].GetPos().x << " , " << targets[tar].GetPos().y << std::endl;
+				prntpos << swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
+				prntpos << swarms[mem].GetDmt();// << " , " << targets[tar].GetPos().y << " , " << swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
+			}
 		}
 	}
 

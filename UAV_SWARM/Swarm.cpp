@@ -1,5 +1,4 @@
 #include "Swarm.h"
-#include "Target.h"
 #include "Obstacle.h"
 #include <cmath>
 
@@ -21,6 +20,7 @@ Vec2 Swarm::GetPos() const //getter function
 {
     return pos;
 }
+
 Vec2 Swarm::GetVel() const
 {
 	return vel;
@@ -31,12 +31,16 @@ void Swarm::Step()
 	pos += vel*dt;
 }
 
-//void Swarm::DistTar(const Target& tar)
-//{
-//	dmtx2 = pow(tar.GetX() - x, 2.0f);
-//	dmty2 = pow(tar.GetY() - y, 2.0f);
-//	dmt2 = dmtx2 + dmty2;
-//}
+float Swarm::GetDmt()
+{
+	return dmt;
+}
+
+void Swarm::DistTar(const Target& tar)
+{
+	const Vec2 delXY = tar.GetPos() - pos;
+	dmt = sqrt((pow(delXY.x, 2.0f) + pow(delXY.y, 2.0f)));
+}
 
 //void Swarm::DirTar()
 //{

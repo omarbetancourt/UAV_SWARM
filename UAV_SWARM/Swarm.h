@@ -1,5 +1,6 @@
 #pragma once
 #include "Vec2.h"
+#include "Target.h"
 
 
 class Swarm
@@ -12,13 +13,16 @@ public:
 	Vec2 GetPos() const; //const because it wont change the state of the object. its just reading some value out
 	Vec2 GetVel() const;
 
+	
 	void Step();
 
 	void SumWgtDirTar();	//4.4
 	float WgtDirTar();		//4.3 public for now until SumWgtDirTar() works.
+	float GetDmt();
+	void DistTar(const Target& tar);//4.1 not const f, because modifies dmt2 (data member).
 
 private:
-	//void DistTar(const Target& tar);		//4.1 const Target tar prob will because it will map
+	
 	//void DirTar();		//4.2 const Target& tar prob wont change tar properties
 	//void WgtDirTar();		//4.3
 
@@ -37,8 +41,9 @@ private:
 	Vec2 pos;
 	Vec2 vel;
 
-	float dmtx2, dmty2;
-	float dmt2;
+	Vec2 dmt2;
+
+	float dmt;
 
 	float nxt, nyt;
 	float nhat_tx, nhat_ty;
