@@ -5,7 +5,7 @@
 #include "Obstacle.h"
 #include <fstream>
 
-static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time
+static constexpr unsigned int nSwarmMembers = 3u; //variable available at compile time
 static constexpr unsigned int nTargets = 1u;
 static constexpr unsigned int nObstacles = 10u;
 
@@ -27,6 +27,7 @@ int main()
 
 	for (int sim_time = 0; sim_time < 1; ++sim_time) //time step. each iter is 0.001 sec
 	{
+
 		for (unsigned int mem = 0; mem < swarms.size(); mem++)
 		{
 			for (unsigned int tar = 0; tar < targets.size(); tar++)
@@ -35,9 +36,10 @@ int main()
 				//swarms[mem].Step();
 				prntpos << targets[tar].GetPos().x << " , " << targets[tar].GetPos().y << std::endl;
 				prntpos << swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
-				prntpos << swarms[mem].GetDmt();// << " , " << targets[tar].GetPos().y << " , " << swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
+				prntpos << swarms[mem].GetDmt() << std::endl;
 			}
 		}
+
 	}
 
 	prntpos.close();

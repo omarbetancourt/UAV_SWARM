@@ -16,11 +16,10 @@ void FillSwarmVector(std::vector<Swarm>&); // Declaration //
 
 void FillSwarmVector(std::vector<Swarm>& swarms) // Definition
 {
-	Vec2 in_pos(xDist(rng), yDist(rng));
-	Vec2 in_vel(vDist(rng), vDist(rng));
-
 	for (unsigned int mem = 0; mem < nSwarmMembers; mem++) // Initializing pos and vel for swarms.
 	{
+		Vec2 in_pos(xDist(rng), yDist(rng));
+		Vec2 in_vel(vDist(rng), vDist(rng));
 		Swarm swarm(in_pos, in_vel);
 		swarms.push_back(swarm);
 	}
@@ -30,10 +29,9 @@ void FillTargetVector(std::vector<Target>&); // Declaration //
 
 void FillTargetVector(std::vector<Target>& targets) // Definition
 {
-	Vec2 in_pos(xtDist(rng), ytDist(rng));
-
 	for (unsigned int tar = 0; tar < nTargets; tar++) // Initializing pos for targets.
 	{
+		Vec2 in_pos(xtDist(rng), ytDist(rng));
 		Target target(in_pos);
 		targets.push_back(target);
 	}
@@ -43,10 +41,9 @@ void FillObstacleVector(std::vector<Obstacle>&); // Declaration //
 
 void FillTargetVector(std::vector<Obstacle>& obstacles) // Definition
 {
-	Vec2 in_pos(xoDist(rng), yoDist(rng));
-
 	for (unsigned int obs = 0; obs < nObstacles; obs++) // Initializing pos for Obstacles.
 	{
+		Vec2 in_pos(xoDist(rng), yoDist(rng));
 		Obstacle obstacle(in_pos);
 		obstacles.push_back(obstacle);
 	}
