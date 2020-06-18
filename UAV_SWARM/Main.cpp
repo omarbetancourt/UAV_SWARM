@@ -6,11 +6,10 @@
 #include <fstream>
 
 static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time
-static constexpr unsigned int nTargets = 2u;
+static constexpr unsigned int nTargets = 3u;
 static constexpr unsigned int nObstacles = 10u;
 
 #include "StartPositions.h"
-
 
 int main()
 {
@@ -41,8 +40,6 @@ int main()
 				prntpos << "Time Step : " << sim_time << std::endl;
 				prntpos << "Target " << tar << ": " << targets[tar].GetPos().x << " , " << targets[tar].GetPos().y << std::endl;
 				prntpos << "Member " << mem << ": " <<  swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
-				prntpos << "Distance : " << swarms[mem].GetDmt() << std::endl;
-				prntpos << "Direction : " << swarms[mem].GetDirTar().x << " , " << swarms[mem].GetDirTar().y << std::endl;
 				prntpos << "Wgt Dir : " << swarms[mem].GetWgtDirTar().x << " , " << swarms[mem].GetWgtDirTar().y << std::endl;
 				prntpos << "Sum Nmt_i : " << Nmt.x << " , " << Nmt.y << std::endl;
 				
@@ -50,9 +47,11 @@ int main()
 				prntpos << "Sum Nmt_i : " << Nmt.x << " , " << Nmt.y << std::endl;
 				prntpos << "  " << std::endl;
 			}
+
+
 			// add other for loops here for obstacles
 
-
+			prntpos << "Sum Nmt_i : " << Nmt.x << " , " << Nmt.y << std::endl;
 			// add Nmt into vector here??
 			swarms[mem].Step();
 		}

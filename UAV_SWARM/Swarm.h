@@ -6,25 +6,18 @@
 class Swarm
 {
 public:
-	Swarm();
 	Swarm(const Vec2& in_pos, const Vec2& in_vel);
 	~Swarm();
 
-	Vec2 GetPos() const; //const because it wont change the state of the object. its just reading some value out
-	Vec2 GetVel() const;
-	Vec2 GetDirTar() const;
-	Vec2 GetWgtDirTar() const; 
-	float GetDmt();
+	void DistTar(const Target& tar);
+	Vec2 DirTar(const Target& tar);
+	Vec2 WgtDirTar();
+	Vec2 GetPos() const; //To output to a file.
+	Vec2 GetWgtDirTar() const; // to set up Nmt
+	float GetWmt(); // to multiply to Nmt
 
 	void Step();
-	void SumWgtDirTar();	//4.4
-	
-	void DistTar(const Target& tar);//4.1 not const f, because modifies dmt2 (data member).
-	Vec2 DirTar(const Target& tar);		//4.2 const Target& tar prob wont change tar properties
-	Vec2 WgtDirTar();		//4.3
-
 private:
-
 
 	//void DistObs();		//4.5
 	//void DirObs();		//4.6
@@ -36,11 +29,12 @@ private:
 	//void WgtDirMem();		//4.11
 	//void SumWgtDirMem();	//4.12
 
+
 private:
 	Vec2 pos;
 	Vec2 vel;
 
-	float dmt;
+	float dmt = 0.0f;
 
 	Vec2 nt_ij;
 	Vec2 nhat_t;
@@ -49,14 +43,15 @@ private:
 	static constexpr float mass = 10.0f;
 	static constexpr float thrustForce = 10000000.0f;
 
+	static constexpr float
+		wt1 = 0.355f,
+		wt2 = 0.848f,
+		Wmt = 2.10f;
+
 	// Overall Weights:
-	//static constexpr float Wmt = 
 	//static constexpr float Wmo = 
 	//static constexpr float Wmm = 
 
-	// Target Weights:
-	static constexpr float wt1 = 0.355f;
-	static constexpr float wt2 = 0.848f;
 
 	// Obstacle Weights:
 	//static constexpr float wo1 = 
