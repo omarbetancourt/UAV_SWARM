@@ -1,7 +1,5 @@
 #pragma once
 
-#include <random>
-
 std::random_device rd; // seed generator used to pass into rng to create different random numbers every time.
 std::mt19937 rng(rd()); //outputs a random number (-2b, +2b), but outputs same sequence of random numbers every time
 std::uniform_real_distribution<float> xDist(0.0f, 5.0f); // uniform_int_distribution remaps rng to the specified range. ( -5,5 )
@@ -13,3 +11,17 @@ std::uniform_real_distribution<float> ytDist(0.0f, 100.0f); // add this block to
 
 std::uniform_real_distribution<float> xoDist(0.0f, 100.0f);
 std::uniform_real_distribution<float> yoDist(0.0f, 100.0f);
+
+void FillSwarmVector(std::vector<Swarm>&); // Declaration // could add this to StartPositions or make new InitializeAgents.h
+
+void FillSwarmVector(std::vector<Swarm>& swarms) // Definition
+{
+	Vec2 in_pos(xDist(rng), yDist(rng));
+	Vec2 in_vel(vDist(rng), vDist(rng));
+
+	for (unsigned int mem = 0; mem < nSwarmMembers; mem++) // Initializing pos and v for swarms. Later needs to be initialized with constructor instead of this Init function
+	{
+		Swarm swarm(in_pos, in_vel);
+		swarms.push_back(swarm);
+	}
+}

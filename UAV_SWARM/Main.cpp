@@ -1,30 +1,16 @@
 //#include <iostream>
+#include "Vec2.h"
+#include <random>
 #include "Swarm.h"
 #include "Target.h"
 #include "Obstacle.h"
 #include <fstream>
-#include "StartPositions.h"
-#include "Vec2.h"
 
-static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time to initialize size of array
+static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time
 //static constexpr unsigned int nTargets = 1u;
 //static constexpr unsigned int nObstacles = 10u;
 
-void FillSwarmVector(std::vector<Swarm>&); // Declaration
-
-void FillSwarmVector(std::vector<Swarm>& swarms) // Definition
-{
-	Vec2 in_pos( xDist(rng), yDist(rng) );
-	Vec2 in_vel( vDist(rng), vDist(rng) );
-
-	for (unsigned int mem = 0; mem < nSwarmMembers; mem++) // Initializing pos and v for swarms. Later needs to be initialized with constructor instead of this Init function
-	{
-		Swarm swarm(in_pos, in_vel);
-		swarms.push_back(swarm);
-	}
-}
-
-
+#include "StartPositions.h"
 
 
 int main()
