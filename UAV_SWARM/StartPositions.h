@@ -25,3 +25,16 @@ void FillSwarmVector(std::vector<Swarm>& swarms) // Definition
 		swarms.push_back(swarm);
 	}
 }
+
+void FillTargetVector(std::vector<Target>&); // Declaration // could add this to StartPositions or make new InitializeAgents.h
+
+void FillTargetVector(std::vector<Target>& targets) // Definition
+{
+	Vec2 in_pos(xtDist(rng), ytDist(rng));
+
+	for (unsigned int tar = 0; tar < nTargets; tar++) // Initializing pos and v for swarms. Later needs to be initialized with constructor instead of this Init function
+	{
+		Target target(in_pos);
+		targets.push_back(target);
+	}
+}

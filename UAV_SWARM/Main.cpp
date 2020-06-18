@@ -17,6 +17,9 @@ int main()
 {
 	std::vector<Swarm> swarms; // vector of objects. Initialized with size nSwarmMembers and entries ar all 0;
 	FillSwarmVector(swarms); //calling
+	std::vector<Target> targets;
+	FillTargetVector(targets);
+
 	//Swarm swarms[nSwarmMembers];
 	//Target targets[nTargets];
 	//Obstacle obstacles[nObstacles];
