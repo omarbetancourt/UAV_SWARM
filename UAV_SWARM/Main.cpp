@@ -5,9 +5,9 @@
 #include "Obstacle.h"
 #include <fstream>
 
-static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time
-static constexpr unsigned int nTargets = 1u;
-static constexpr unsigned int nObstacles = 10u;
+static constexpr unsigned int nSwarmMembers = 100u; //variable available at compile time
+static constexpr unsigned int nTargets = 100u;
+static constexpr unsigned int nObstacles = 100u;
 
 #include "StartPositions.h"
 
@@ -25,7 +25,7 @@ int main()
 	std::ofstream prntpos;
 	prntpos.open ("swarmPositions.txt");
 
-	for (int sim_time = 0; sim_time < 1000; ++sim_time) //time step. each iter is 0.001 sec
+	for (int sim_time = 0; sim_time < 30000; ++sim_time) //time step. each iter is 0.001 sec
 	{
 		for (unsigned int mem = 0; mem < swarms.size(); mem++)
 		{
