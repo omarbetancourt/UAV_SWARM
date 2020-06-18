@@ -1,24 +1,25 @@
 #pragma once
-#include "Target.h"
-#include "Obstacle.h"
-#include <vector>
+#include "Vec2.h"
+
 
 class Swarm
 {
 public:
 	Swarm();
-	Swarm(float in_x, float in_y, float in_vx, float in_vy);
+	Swarm(const Vec2& in_pos, const Vec2& in_vel);
 	~Swarm();
-	float GetX() const; //const because it wont change the state of the object. its just reading some value out
-	float GetY() const;
+
+	Vec2 GetPos() const; //const because it wont change the state of the object. its just reading some value out
+	Vec2 GetVel() const;
+
 	void Step();
 
 	void SumWgtDirTar();	//4.4
 	float WgtDirTar();		//4.3 public for now until SumWgtDirTar() works.
 
 private:
-	void DistTar(const Target& tar);		//4.1 const Target tar prob will because it will map
-	void DirTar();		//4.2 const Target& tar prob wont change tar properties
+	//void DistTar(const Target& tar);		//4.1 const Target tar prob will because it will map
+	//void DirTar();		//4.2 const Target& tar prob wont change tar properties
 	//void WgtDirTar();		//4.3
 
 
@@ -33,8 +34,8 @@ private:
 	//void SumWgtDirMem();	//4.12
 
 private:
-	float x, y;
-	float vx, vy;
+	Vec2 pos;
+	Vec2 vel;
 
 	float dmtx2, dmty2;
 	float dmt2;
@@ -42,7 +43,7 @@ private:
 	float nxt, nyt;
 	float nhat_tx, nhat_ty;
 
-	static constexpr float dt = 0.001f;
+	static constexpr float dt = 1.0f; //needs to be changed to 0.001f later
 	static constexpr float mass = 10.0f;
 	static constexpr float thrustForce = 10000000.0f;
 

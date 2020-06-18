@@ -1,10 +1,12 @@
-#include <iostream>
+//#include <iostream>
 #include "Swarm.h"
 #include "Target.h"
 #include "Obstacle.h"
 #include <fstream>
 #include "StartPositions.h"
-static constexpr unsigned int nSwarmMembers = 3u; //variable available at compile time to initialize size of array
+#include "Vec2.h"
+
+static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time to initialize size of array
 //static constexpr unsigned int nTargets = 1u;
 //static constexpr unsigned int nObstacles = 10u;
 
@@ -12,9 +14,12 @@ void FillSwarmVector(std::vector<Swarm>&); // Declaration
 
 void FillSwarmVector(std::vector<Swarm>& swarms) // Definition
 {
+	Vec2 in_pos( xDist(rng), yDist(rng) );
+	Vec2 in_vel( vDist(rng), vDist(rng) );
+
 	for (unsigned int mem = 0; mem < nSwarmMembers; mem++) // Initializing pos and v for swarms. Later needs to be initialized with constructor instead of this Init function
 	{
-		Swarm swarm(xDist(rng), yDist(rng), vDist(rng), vDist(rng));
+		Swarm swarm(in_pos, in_vel);
 		swarms.push_back(swarm);
 	}
 }
@@ -67,7 +72,7 @@ int main()
 		for (unsigned int member = 0; member < swarms.size(); member++)
 		{
 			swarms[member].Step();
-			prntpos << member << " , " << sim_time << " , " << swarms[member].GetX() << " , " << swarms[member].GetY() << std::endl;
+			prntpos << " , " << swarms[member].GetVel().x << " , " << swarms[member].GetVel().y << " , " << swarms[member].GetPos().x << " , " << swarms[member].GetPos().y << std::endl;
 		}
 
 
