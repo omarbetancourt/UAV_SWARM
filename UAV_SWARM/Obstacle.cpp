@@ -1,7 +1,19 @@
 #include "Obstacle.h"
 
-void Obstacle::Init(float in_x, float in_y)
+Obstacle::Obstacle()
 {
-	x = in_x;
-	y = in_y;
+}
+
+Obstacle::Obstacle(const Vec2& in_pos)
+{
+	pos = in_pos;
+}
+
+Obstacle::~Obstacle()
+{
+}
+
+Vec2 Obstacle::GetPos() const
+{
+	return pos;
 }

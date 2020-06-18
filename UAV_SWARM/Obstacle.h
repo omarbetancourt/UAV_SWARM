@@ -4,9 +4,11 @@
 class Obstacle
 {
 public:
-	void Init(float in_x, float in_y);
+	Obstacle();
+	Obstacle(const Vec2& in_pos);
+	~Obstacle();
 
+	Vec2 GetPos() const;
 private:
-	float x;
-	float y;
+	Vec2 pos;
 };
