@@ -9,14 +9,13 @@ Swarm::Swarm()
 
 Swarm::Swarm( const Vec2& in_pos, const Vec2& in_vel) // the constructor. Parameters in () will be values passed in when constructing
 {
-	pos = in_pos; // RHS variable are the private data members below
-	vel = in_vel;
+	pos = in_pos; // LHS variable is the private data members below
+	vel = in_vel;// RHS values passed in through Main.ccp
 }
 
 Swarm::~Swarm()
 {
 }
-
 
 Vec2 Swarm::GetPos() const //getter function
 {
@@ -26,11 +25,6 @@ Vec2 Swarm::GetVel() const
 {
 	return vel;
 }
-//
-//float Swarm::GetY() const
-//{
-//    return y;
-//}
 
 void Swarm::Step()
 {
