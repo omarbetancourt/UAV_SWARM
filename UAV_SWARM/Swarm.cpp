@@ -31,9 +31,18 @@ Vec2 Swarm::GetDirTar() const
 	return nt_ij;
 }
 
+Vec2 Swarm::GetWgtDirTar() const
+{
+	return nhat_t;
+}
+
 void Swarm::Step() //good
 {
-	pos += vel*dt;
+	//pos += vel*dt;
+	pos += nt_ij;
+
+
+	//for later: if (vel >= max){ velnew = velold }
 }
 
 float Swarm::GetDmt() //good
@@ -52,16 +61,14 @@ Vec2 Swarm::DirTar(const Target& tar)
 	const Vec2 delXY = tar.GetPos() - pos;
 	return nt_ij = delXY/dmt;
 }
-//
-//float Swarm::WgtDirTar()
-//{
-//	const float dmt = sqrt(dmt2);
-//
-//	nhat_tx = (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt)) * nxt;
-//	nhat_ty = (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt)) * nyt;
-//	return 0.0;
-//	// needs to return two numbers
-//}
+
+Vec2 Swarm::WgtDirTar()
+{
+
+	return nhat_t = nt_ij * (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt));
+
+	// needs to return two numbers
+}
 //
 //void Swarm::SumWgtDirTar()
 //{
