@@ -19,7 +19,10 @@ public:
 
 	Vec2 GetPos() const; //To output to a file.
 	float GetDmt() const;
+
 	Vec2 GetWgtDirTar() const; // to set up Nmt
+	Vec2 GetWgtDirObs() const;
+
 	float GetWmt() const; // to multiply to Nmt
 	float GetWmo() const;
 

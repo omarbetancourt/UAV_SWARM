@@ -41,7 +41,7 @@ Vec2 Swarm::WgtDirTar()
 	return nhat_t = nt_ij * (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt));
 }
 
-Vec2 Swarm::WgtDirObs()
+Vec2 Swarm::WgtDirObs() // make this void private function?
 {
 	return nhat_o = no_ij * (wo1 * exp(-b1 * dmo) - wo2 * exp(-b2 * dmo));
 }
@@ -60,6 +60,11 @@ float Swarm::GetDmt() const
 Vec2 Swarm::GetWgtDirTar() const
 {
 	return nhat_t;
+}
+
+Vec2 Swarm::GetWgtDirObs() const
+{
+	return nhat_o;
 }
 
 float Swarm::GetWmt() const
