@@ -22,6 +22,11 @@ void Swarm::DistObs(const Obstacle& obs)
 {
 	const Vec2 delXY = obs.GetPos() - pos;
 	dmo = sqrt((pow(delXY.x, 2.0f) + pow(delXY.y, 2.0f)));
+
+	if (dmo < interaction_radius)
+	{
+		isImmobile = true;
+	}
 }
 
 Vec2 Swarm::DirTar(const Target& tar)
@@ -94,5 +99,10 @@ void Swarm::Step(const Vec2& n_star) //good
 		vel = dir_vel*vel_max;
 	}
 	pos += vel * dt;
+}
+
+bool Swarm::IsImmobile()
+{
+	return isImmobile;
 }
 

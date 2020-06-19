@@ -29,6 +29,8 @@ public:
 	float GetWmo() const;
 
 	void Step(const Vec2& n_star);
+
+	bool IsImmobile();
 private:
 
 	//
@@ -43,6 +45,8 @@ private:
 
 
 private:
+	bool isImmobile = false;
+
 	Vec2 pos;
 	Vec2 vel;
 
@@ -84,6 +88,8 @@ private:
 
 public:
 	static constexpr float
+		interaction_radius = 6.0f,
+
 		wt1 = 0.355f,
 		wt2 = 0.848f,
 		Wmt = 2.10f,

@@ -23,7 +23,7 @@ int main()
 	FillTargetVector(obstacles);  
 	int timestep = 0; //might change to file name later.
 
-	for (int sim_time = 0; sim_time <= 100; ++sim_time) //time step. each iter is 0.001 sec
+	for (int sim_time = 0; sim_time <= 1000; ++sim_time) //time step. each iter is 0.001 sec
 	{
 
 		for (unsigned int mem = 0; mem < swarms.size(); mem++)
@@ -47,15 +47,6 @@ int main()
 				swarms[mem].DirObs(obstacles[obs]);
 				swarms[mem].WgtDirObs();
 
-				//if (obstacles[obs].TestCollision(swarms[mem]))
-				//{
-				//	std::cout << sim_time << ": ";
-				//	std::cout << obstacles[obs].GetPos().x << " , " << obstacles[obs].GetPos().y << std::endl;
-				//	std::cout << swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
-				//	swarms.erase(swarms.begin() + mem);
-				//	std::cout << swarms.size() << std::endl;
-				//}
-
 				Nmo += swarms[mem].GetWgtDirObs(); // result for Nmt for one member
 			}
 
@@ -78,11 +69,12 @@ int main()
 				}
 			}
 
-			for (unsigned int tar = 0; tar < targets.size(); tar++)
+			for (unsigned int mem = 0; mem < swarms.size(); mem++)
 			{
-				if (targets[tar].IsMapped())
+				if (swarms[mem].IsImmobile())
 				{
-					targets.erase(targets.begin() + tar);
+					std::cout << sim_time << std::endl;
+					swarms.erase(swarms.begin() + mem);
 				}
 			}
 
