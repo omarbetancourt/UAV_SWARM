@@ -52,7 +52,7 @@ int main()
 
 			swarms[mem].Step(n_norm);
 		}
-
+		//Useless comment
 		
 		if (sim_time % 10 == 0)// print every n steps = 2
 		{
