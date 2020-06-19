@@ -54,7 +54,7 @@ int main()
 			{
 				swarms[mem].DistObs(obstacles[obs]);
 				swarms[mem].DirObs(obstacles[obs]);
-				//swarms[mem].WgtDirobs();
+				swarms[mem].WgtDirObs();
 
 				//Nmo += swarms[mem].GetWgtDirObs(); // result for Nmt for one member
 

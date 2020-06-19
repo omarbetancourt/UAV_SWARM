@@ -41,6 +41,11 @@ Vec2 Swarm::WgtDirTar()
 	return nhat_t = nt_ij * (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt));
 }
 
+Vec2 Swarm::WgtDirObs()
+{
+	return nhat_o = no_ij * (wo1 * exp(-b1 * dmo) - wo2 * exp(-b2 * dmo));
+}
+
 Vec2 Swarm::GetPos() const //getter function
 {
     return pos;

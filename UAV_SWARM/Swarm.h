@@ -15,6 +15,8 @@ public:
 	Vec2 DirObs(const Obstacle& obs);
 
 	Vec2 WgtDirTar();
+	Vec2 WgtDirObs();
+
 	Vec2 GetPos() const; //To output to a file.
 	float GetDmt() const;
 	Vec2 GetWgtDirTar() const; // to set up Nmt
@@ -45,7 +47,9 @@ private:
 
 	Vec2 nt_ij;
 	Vec2 no_ij;
+
 	Vec2 nhat_t;
+	Vec2 nhat_o;
 
 	static constexpr float dt = 0.001f; 
 	static constexpr float mass = 10.0f;
@@ -68,8 +72,8 @@ private:
 	// Decay Coefficients:
 	static constexpr float a1 = 0.014f;
 	static constexpr float a2 = 0.220f;
-	//static constexpr float b1 = 
-	//static constexpr float b2 = 
+	static constexpr float b1 = 1.00f;
+	static constexpr float b2 = 0.866f;
 	//static constexpr float c1 = 
 	//static constexpr float c2 =
 
@@ -78,5 +82,8 @@ public:
 		wt1 = 0.355f,
 		wt2 = 0.848f,
 		Wmt = 2.10f,
+
+		wo1 = 0.343f,
+		wo2 = 1.07f,
 		Wmo = 2.01f;
 };
