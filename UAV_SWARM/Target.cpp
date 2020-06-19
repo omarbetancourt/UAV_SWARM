@@ -17,11 +17,6 @@ bool Target::TestCollision(const Swarm& swarm) const
         (swarm.GetDmt() <= 6);
 }
 
-bool Target::IsMapped()
-{
-    return isMapped;
-}
-
 Vec2 Target::GetPos() const
 {
     return pos;

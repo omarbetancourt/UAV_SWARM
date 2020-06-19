@@ -56,6 +56,11 @@ float Swarm::GetDmt() const
 	return dmt;
 }
 
+float Swarm::GetDmo() const
+{
+	return dmo;
+}
+
 
 Vec2 Swarm::GetWgtDirTar() const
 {

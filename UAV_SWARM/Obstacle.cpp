@@ -1,8 +1,5 @@
 #include "Obstacle.h"
-
-Obstacle::Obstacle()
-{
-}
+#include "Swarm.h"
 
 Obstacle::Obstacle(const Vec2& in_pos)
 {
@@ -11,6 +8,11 @@ Obstacle::Obstacle(const Vec2& in_pos)
 
 Obstacle::~Obstacle()
 {
+}
+
+bool Obstacle::TestCollision(const Swarm& swarm) const
+{
+	return  (swarm.GetDmo() <= 6);;
 }
 
 Vec2 Obstacle::GetPos() const

@@ -9,10 +9,10 @@ public:
 	~Target();
 
 	bool TestCollision(const Swarm& swarm) const;
-	bool IsMapped();
+	//bool IsMapped();
 	Vec2 GetPos() const;
 
 private:
 	Vec2 pos;
-	bool isMapped = false;
+	//bool isMapped = false;
 };

@@ -18,7 +18,9 @@ public:
 	Vec2 WgtDirObs();
 
 	Vec2 GetPos() const; //To output to a file.
+
 	float GetDmt() const;
+	float GetDmo() const;
 
 	Vec2 GetWgtDirTar() const; // to set up Nmt
 	Vec2 GetWgtDirObs() const;
