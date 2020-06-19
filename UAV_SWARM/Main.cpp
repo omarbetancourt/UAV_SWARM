@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 
-static constexpr unsigned int nSwarmMembers = 10u; //variable available at compile time
+static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time
 static constexpr unsigned int nTargets = 100u;
 static constexpr unsigned int nObstacles = 1u;
 
@@ -50,12 +50,13 @@ int main()
 			}
 
 			for (unsigned int mem2 = 0; mem2 < swarms.size(); mem2++) // add swarm id later?
+				// if comparing to istelf, n_hat = Vec2(-nan(ind), -nan(ind))
 			{
 				swarms[mem].DistMem(swarms[mem2]);
-				//swarms[mem].DirMem(swarms[mem2]);
-				//swarms[mem].WgtDirMem();
+				swarms[mem].DirMem(swarms[mem2]);
+				swarms[mem].WgtDirMem();
 
-				//Nmm += swarms[mem].GetWgtMemObs(); // result for Nmt for one member
+				Nmm += swarms[mem].GetWgtDirMem(); // result for Nmt for one member
 			}
 
 			Vec2 WNmt = Nmt*Swarm::Wmt;

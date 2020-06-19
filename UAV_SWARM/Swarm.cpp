@@ -49,6 +49,12 @@ Vec2 Swarm::DirObs(const Obstacle& obs)
 	return no_ij = delXY / dmo;
 }
 
+Vec2 Swarm::DirMem(const Swarm& mem2)
+{
+	const Vec2 delXY = mem2.GetPos() - pos;
+	return nm_ij = delXY / dmm;
+}
+
 Vec2 Swarm::WgtDirTar()
 {
 	return nhat_t = nt_ij * (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt));
@@ -57,6 +63,11 @@ Vec2 Swarm::WgtDirTar()
 Vec2 Swarm::WgtDirObs() // make this void private function?
 {
 	return nhat_o = no_ij * (wo1 * exp(-b1 * dmo) - wo2 * exp(-b2 * dmo));
+}
+
+Vec2 Swarm::WgtDirMem()
+{
+	return nhat_m = nm_ij * (wm1 * exp(-c1 * dmm) - wm2 * exp(-c2 * dmm));
 }
 
 Vec2 Swarm::GetPos() const //getter function
@@ -74,6 +85,11 @@ float Swarm::GetDmo() const
 	return dmo;
 }
 
+float Swarm::GetDmm() const
+{
+	return dmm;
+}
+
 
 Vec2 Swarm::GetWgtDirTar() const
 {
@@ -85,6 +101,11 @@ Vec2 Swarm::GetWgtDirObs() const
 	return nhat_o;
 }
 
+Vec2 Swarm::GetWgtDirMem() const
+{
+	return nhat_m;
+}
+
 float Swarm::GetWmt() const
 {
 	return Wmt;
@@ -93,6 +114,11 @@ float Swarm::GetWmt() const
 float Swarm::GetWmo() const
 {
 	return Wmo;
+}
+
+float Swarm::GetWmm() const
+{
+	return Wmm;
 }
 
 void Swarm::Step(const Vec2& n_star) //good
