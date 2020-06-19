@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 
-static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time
+static constexpr unsigned int nSwarmMembers = 20u; //variable available at compile time
 static constexpr unsigned int nTargets = 1u;
 static constexpr unsigned int nObstacles = 1u;
 
@@ -21,9 +21,9 @@ int main()
 	FillTargetVector(targets);
 	std::vector<Obstacle> obstacles;
 	FillTargetVector(obstacles);  
-	
+	int timestep = 0; //might change to file name later.
 
-	for (int sim_time = 0; sim_time < 10; ++sim_time) //time step. each iter is 0.001 sec
+	for (int sim_time = 0; sim_time < 100; ++sim_time) //time step. each iter is 0.001 sec
 	{
 
 		for (unsigned int mem = 0; mem < swarms.size(); mem++)
@@ -45,7 +45,7 @@ int main()
 
 			Vec2 WNmt = Nmt*Swarm::Wmt;
 			Vec2 WNmo = Nmo*Swarm::Wmt;
-			Vec2 WNmm = Nmm*Swarm::Wmt;
+			Vec2 WNmm = Nmm*Swarm::Wmt; // change Swarm::Wmt later
 
 			Vec2 Ntot = WNmt + WNmo + WNmo;
 			Vec2 n_norm = Ntot / sqrt(pow(Ntot.x, 2.0f) + pow(Ntot.y, 2.0f));
@@ -53,13 +53,19 @@ int main()
 			swarms[mem].Step(n_norm);
 		}
 
-		if (sim_time % 2 == 0)// print every n steps = 2
+		
+		if (sim_time % 10 == 0)// print every n steps = 2
 		{
 			std::stringstream ss;
-			ss << "sim-" << sim_time << ".csv";
+			ss << "sim-" << timestep << ".csv";
 			std::ofstream prntpos;
 			prntpos.open(ss.str().c_str());
-			prntpos  << sim_time << std::endl;
+			timestep += 1;
+
+			for (unsigned int mem = 0; mem < swarms.size(); mem++)
+			{
+				prntpos << swarms[mem].GetPos().x << "," << swarms[mem].GetPos().y << std::endl;
+			}
 			prntpos.close();
 		}
 	}
