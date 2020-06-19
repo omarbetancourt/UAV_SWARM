@@ -30,6 +30,12 @@ Vec2 Swarm::DirTar(const Target& tar)
 	return nt_ij = delXY / dmt;
 }
 
+Vec2 Swarm::DirObs(const Obstacle& obs)
+{
+	const Vec2 delXY = obs.GetPos() - pos;
+	return no_ij = delXY / dmo;
+}
+
 Vec2 Swarm::WgtDirTar()
 {
 	return nhat_t = nt_ij * (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt));
@@ -54,6 +60,11 @@ Vec2 Swarm::GetWgtDirTar() const
 float Swarm::GetWmt() const
 {
 	return Wmt;
+}
+
+float Swarm::GetWmo() const
+{
+	return Wmo;
 }
 
 void Swarm::Step(const Vec2& n_star) //good

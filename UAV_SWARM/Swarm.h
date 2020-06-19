@@ -12,11 +12,14 @@ public:
 	void DistObs(const Obstacle& obs);		//4.5
 
 	Vec2 DirTar(const Target& tar);
+	Vec2 DirObs(const Obstacle& obs);
+
 	Vec2 WgtDirTar();
 	Vec2 GetPos() const; //To output to a file.
 	float GetDmt() const;
 	Vec2 GetWgtDirTar() const; // to set up Nmt
 	float GetWmt() const; // to multiply to Nmt
+	float GetWmo() const;
 
 	void Step(const Vec2& n_star);
 private:
@@ -41,6 +44,7 @@ private:
 	float dmm = 0.0f;
 
 	Vec2 nt_ij;
+	Vec2 no_ij;
 	Vec2 nhat_t;
 
 	static constexpr float dt = 0.001f; 
@@ -73,5 +77,6 @@ public:
 	static constexpr float
 		wt1 = 0.355f,
 		wt2 = 0.848f,
-		Wmt = 2.10f;
+		Wmt = 2.10f,
+		Wmo = 2.01f;
 };

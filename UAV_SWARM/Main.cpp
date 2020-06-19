@@ -53,7 +53,7 @@ int main()
 			for (unsigned int obs = 0; obs < obstacles.size(); obs++)
 			{
 				swarms[mem].DistObs(obstacles[obs]);
-				//swarms[mem].DirObs(obstacles[obs]);
+				swarms[mem].DirObs(obstacles[obs]);
 				//swarms[mem].WgtDirobs();
 
 				//Nmo += swarms[mem].GetWgtDirObs(); // result for Nmt for one member
