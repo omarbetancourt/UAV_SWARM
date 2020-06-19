@@ -13,7 +13,7 @@ Target::~Target()
 
 void Target::TestCollision(const Swarm& swarm)
 {
-    isMapped = (swarm.GetDmt() <= 6);
+    isMapped = (swarm.GetDmt() <= Swarm::interaction_radius);
 }
 
 bool Target::IsMapped()

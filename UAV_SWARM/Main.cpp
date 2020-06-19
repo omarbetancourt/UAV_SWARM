@@ -7,9 +7,9 @@
 #include <iostream>
 #include <sstream>
 
-static constexpr unsigned int nSwarmMembers = 100u; //variable available at compile time
+static constexpr unsigned int nSwarmMembers = 10u; //variable available at compile time
 static constexpr unsigned int nTargets = 100u;
-static constexpr unsigned int nObstacles = 100u;
+static constexpr unsigned int nObstacles = 1u;
 
 #include "StartPositions.h"
 
@@ -25,7 +25,6 @@ int main()
 
 	for (int sim_time = 0; sim_time <= 1000; ++sim_time) //time step. each iter is 0.001 sec
 	{
-
 		for (unsigned int mem = 0; mem < swarms.size(); mem++)
 		{
 			Vec2 Nmt(0, 0);
@@ -50,11 +49,18 @@ int main()
 				Nmo += swarms[mem].GetWgtDirObs(); // result for Nmt for one member
 			}
 
-			// add other for loops here for obstacles
+			for (unsigned int mem2 = 0; mem2 < swarms.size(); mem2++) // add swarm id later?
+			{
+				swarms[mem].DistMem(swarms[mem2]);
+				//swarms[mem].DirMem(swarms[mem2]);
+				//swarms[mem].WgtDirMem();
+
+				//Nmm += swarms[mem].GetWgtMemObs(); // result for Nmt for one member
+			}
 
 			Vec2 WNmt = Nmt*Swarm::Wmt;
 			Vec2 WNmo = Nmo*Swarm::Wmo;
-			Vec2 WNmm = Nmm*Swarm::Wmt; // change to Swarm::Wmo later
+			Vec2 WNmm = Nmm*Swarm::Wmm; // change to Swarm::Wmo later
 
 			Vec2 Ntot = WNmt + WNmo + WNmo;
 			Vec2 n_norm = Ntot / sqrt(pow(Ntot.x, 2.0f) + pow(Ntot.y, 2.0f));
@@ -65,6 +71,7 @@ int main()
 			{
 				if (targets[tar].IsMapped())
 				{
+					std::cout << targets.size() << std::endl;
 					targets.erase(targets.begin() + tar);
 				}
 			}
@@ -73,7 +80,7 @@ int main()
 			{
 				if (swarms[mem].IsImmobile())
 				{
-					std::cout << sim_time << std::endl;
+					//std::cout << swarms.size() << std::endl;
 					swarms.erase(swarms.begin() + mem);
 				}
 			}

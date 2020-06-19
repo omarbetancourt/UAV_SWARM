@@ -10,6 +10,7 @@ public:
 	~Swarm();
 	void DistTar(const Target& tar);
 	void DistObs(const Obstacle& obs);		//4.5
+	void DistMem(const Swarm& mem2);
 
 	Vec2 DirTar(const Target& tar);
 	Vec2 DirObs(const Obstacle& obs);
@@ -31,18 +32,6 @@ public:
 	void Step(const Vec2& n_star);
 
 	bool IsImmobile();
-private:
-
-	//
-	//void DirObs();		//4.6
-	//void WgtDirObs();		//4.7
-	//void SumWgtDirObs();	//4.8
-	//asdfs 
-	//void DistMem();		//4.9
-	//void DirMem();		//4.10
-	//void WgtDirMem();		//4.11
-	//void SumWgtDirMem();	//4.12
-
 
 private:
 	bool isImmobile = false;
@@ -65,26 +54,13 @@ private:
 	static constexpr float thrustForce = 10000000.0f;
 	static constexpr float vel_max = 100.0f;
 
-	// Overall Weights:
-	//static constexpr float Wmo = 
-	//static constexpr float Wmm = 
-
-
-	// Obstacle Weights:
-	//static constexpr float wo1 = 
-	//static constexpr float wo2 = 
-
-	// Member Weights:
-	//static constexpr float wm1 = 
-	//static constexpr float wm2 = 
-
-	// Decay Coefficients:
-	static constexpr float a1 = 0.014f;
-	static constexpr float a2 = 0.220f;
-	static constexpr float b1 = 1.00f;
-	static constexpr float b2 = 0.866f;
-	//static constexpr float c1 = 
-	//static constexpr float c2 =
+	static constexpr float 
+		a1 = 0.014f,
+		a2 = 0.220f,
+		b1 = 1.00f,
+		b2 = 0.866f,
+		c1 = 0.423,
+		c2 = 0.074;
 
 public:
 	static constexpr float
@@ -96,5 +72,9 @@ public:
 
 		wo1 = 0.343f,
 		wo2 = 1.07f,
-		Wmo = 2.01f;
+		Wmo = 2.01f,
+
+		wm1 = 0.521f,
+		wm2 = 0.94f,
+		Wmm = 4.51f;
 };
