@@ -34,6 +34,11 @@ Vec2 Swarm::GetPos() const //getter function
     return pos;
 }
 
+float Swarm::GetDmt() const
+{
+	return dmt;
+}
+
 
 Vec2 Swarm::GetWgtDirTar() const
 {

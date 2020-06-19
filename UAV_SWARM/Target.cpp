@@ -1,8 +1,6 @@
 #include "Target.h"
+#include "Swarm.h"
 
-Target::Target()
-{
-}
 
 Target::Target(const Vec2& in_pos)
 {
@@ -11,6 +9,12 @@ Target::Target(const Vec2& in_pos)
 
 Target::~Target()
 {
+}
+
+bool Target::TestCollision(const Swarm& swarm) const
+{
+    return
+        (swarm.GetDmt() <= 6);
 }
 
 bool Target::IsMapped()
