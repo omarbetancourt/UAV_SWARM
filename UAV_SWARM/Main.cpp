@@ -50,6 +50,24 @@ int main()
 					}
 			}
 
+			for (unsigned int obs = 0; obs < obstacles.size(); obs++)
+			{
+				swarms[mem].DistObs(obstacles[obs]);
+				//swarms[mem].DirObs(obstacles[obs]);
+				//swarms[mem].WgtDirobs();
+
+				//Nmo += swarms[mem].GetWgtDirObs(); // result for Nmt for one member
+
+				//if (obstacles[obs].TestCollision(swarms[mem]))
+				//{
+				//	std::cout << sim_time << ": ";
+				//	std::cout << targets[tar].GetPos().x << " , " << targets[tar].GetPos().y << std::endl;
+				//	std::cout << swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
+				//	targets.erase(targets.begin() + tar);
+				//	std::cout << targets.size() << std::endl;
+				//}
+			}
+
 			// add other for loops here for obstacles
 
 			Vec2 WNmt = Nmt*Swarm::Wmt;
@@ -63,6 +81,8 @@ int main()
 
 
 		}
+
+
 
 		
 		//if (sim_time % 1 == 0)// print every n steps = 2

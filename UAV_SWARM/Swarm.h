@@ -1,7 +1,7 @@
 #pragma once
 #include "Vec2.h"
 #include "Target.h"
-
+#include "Obstacle.h"
 
 class Swarm
 {
@@ -9,6 +9,8 @@ public:
 	Swarm(const Vec2& in_pos, const Vec2& in_vel);
 	~Swarm();
 	void DistTar(const Target& tar);
+	void DistObs(const Obstacle& obs);		//4.5
+
 	Vec2 DirTar(const Target& tar);
 	Vec2 WgtDirTar();
 	Vec2 GetPos() const; //To output to a file.
@@ -19,7 +21,7 @@ public:
 	void Step(const Vec2& n_star);
 private:
 
-	//void DistObs();		//4.5
+	//
 	//void DirObs();		//4.6
 	//void WgtDirObs();		//4.7
 	//void SumWgtDirObs();	//4.8
@@ -35,6 +37,8 @@ private:
 	Vec2 vel;
 
 	float dmt = 0.0f;
+	float dmo = 0.0f;
+	float dmm = 0.0f;
 
 	Vec2 nt_ij;
 	Vec2 nhat_t;

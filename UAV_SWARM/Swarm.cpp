@@ -18,6 +18,12 @@ void Swarm::DistTar(const Target& tar)// good
 	dmt = sqrt((pow(delXY.x, 2.0f) + pow(delXY.y, 2.0f)));
 }
 
+void Swarm::DistObs(const Obstacle& obs)
+{
+	const Vec2 delXY = obs.GetPos() - pos;
+	dmo = sqrt((pow(delXY.x, 2.0f) + pow(delXY.y, 2.0f)));
+}
+
 Vec2 Swarm::DirTar(const Target& tar)
 {
 	const Vec2 delXY = tar.GetPos() - pos;
