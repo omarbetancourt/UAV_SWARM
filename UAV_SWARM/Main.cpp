@@ -9,7 +9,7 @@
 
 static constexpr unsigned int nSwarmMembers = 100u; //variable available at compile time
 static constexpr unsigned int nTargets = 100u;
-static constexpr unsigned int nObstacles = 1u;
+static constexpr unsigned int nObstacles = 100u;
 
 #include "StartPositions.h"
 
@@ -37,17 +37,8 @@ int main()
 				swarms[mem].DistTar(targets[tar]);
 				swarms[mem].DirTar(targets[tar]);
 				swarms[mem].WgtDirTar();
-				
-				Nmt += swarms[mem].GetWgtDirTar(); // result for Nmt for one member
 
-				if (targets[tar].TestCollision(swarms[mem]))
-					{
-						std::cout << sim_time << ": ";
-						std::cout << targets[tar].GetPos().x << " , " << targets[tar].GetPos().y << std::endl;
-						std::cout << swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
-						targets.erase(targets.begin() + tar);
-						std::cout << targets.size() << std::endl;
-					}
+				Nmt += swarms[mem].GetWgtDirTar(); // result for Nmt for one member
 			}
 
 			for (unsigned int obs = 0; obs < obstacles.size(); obs++)
@@ -56,29 +47,44 @@ int main()
 				swarms[mem].DirObs(obstacles[obs]);
 				swarms[mem].WgtDirObs();
 
-				Nmo += swarms[mem].GetWgtDirObs(); // result for Nmt for one member
-
 				//if (obstacles[obs].TestCollision(swarms[mem]))
 				//{
 				//	std::cout << sim_time << ": ";
-				//	std::cout << targets[tar].GetPos().x << " , " << targets[tar].GetPos().y << std::endl;
+				//	std::cout << obstacles[obs].GetPos().x << " , " << obstacles[obs].GetPos().y << std::endl;
 				//	std::cout << swarms[mem].GetPos().x << " , " << swarms[mem].GetPos().y << std::endl;
-				//	targets.erase(targets.begin() + tar);
-				//	std::cout << targets.size() << std::endl;
+				//	swarms.erase(swarms.begin() + mem);
+				//	std::cout << swarms.size() << std::endl;
 				//}
+
+				Nmo += swarms[mem].GetWgtDirObs(); // result for Nmt for one member
 			}
 
 			// add other for loops here for obstacles
 
 			Vec2 WNmt = Nmt*Swarm::Wmt;
-			Vec2 WNmo = Nmo*Swarm::Wmt;
-			Vec2 WNmm = Nmm*Swarm::Wmt; // change Swarm::Wmt later
+			Vec2 WNmo = Nmo*Swarm::Wmo;
+			Vec2 WNmm = Nmm*Swarm::Wmt; // change to Swarm::Wmo later
 
 			Vec2 Ntot = WNmt + WNmo + WNmo;
 			Vec2 n_norm = Ntot / sqrt(pow(Ntot.x, 2.0f) + pow(Ntot.y, 2.0f));
 
 			swarms[mem].Step(n_norm);
 
+			for (unsigned int tar = 0; tar < targets.size(); tar++)
+			{
+				if (targets[tar].IsMapped())
+				{
+					targets.erase(targets.begin() + tar);
+				}
+			}
+
+			for (unsigned int tar = 0; tar < targets.size(); tar++)
+			{
+				if (targets[tar].IsMapped())
+				{
+					targets.erase(targets.begin() + tar);
+				}
+			}
 
 		}
 

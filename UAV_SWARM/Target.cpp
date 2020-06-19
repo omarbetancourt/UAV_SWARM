@@ -11,10 +11,14 @@ Target::~Target()
 {
 }
 
-bool Target::TestCollision(const Swarm& swarm) const
+void Target::TestCollision(const Swarm& swarm)
 {
-    return
-        (swarm.GetDmt() <= 6);
+    isMapped = (swarm.GetDmt() <= 6);
+}
+
+bool Target::IsMapped()
+{
+    return isMapped;
 }
 
 Vec2 Target::GetPos() const
