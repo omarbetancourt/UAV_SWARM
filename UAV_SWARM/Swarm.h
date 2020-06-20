@@ -8,6 +8,8 @@ class Swarm
 public:
 	Swarm(const Vec3& in_pos, const Vec3& in_vel);
 	~Swarm();
+	void TestCollision(const Obstacle& obs);
+
 	void DistTar(const Target& tar);
 	void DistObs(const Obstacle& obs);		//4.5
 	void DistMem(const Swarm& mem2);

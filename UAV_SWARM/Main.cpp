@@ -9,7 +9,7 @@
 
 static constexpr unsigned int nSwarmMembers = 100u; //variable available at compile time
 static constexpr unsigned int nTargets = 100u;
-static constexpr unsigned int nObstacles = 1u;
+static constexpr unsigned int nObstacles = 100u;
 
 #include "StartPositions.h"
 
@@ -47,7 +47,8 @@ int main()
 
 			for (unsigned int obs = 0; obs < obstacles.size(); obs++)
 			{
-				swarms[mem].DistObs(obstacles[obs]); // may make TestCollision() for Swarm
+				swarms[mem].DistObs(obstacles[obs]);
+				swarms[mem].TestCollision(obstacles[obs]);
 				swarms[mem].DirObs(obstacles[obs]);
 				swarms[mem].WgtDirObs();
 
@@ -94,9 +95,7 @@ int main()
 
 		}
 
-
-
-		
+		// Output Data:
 		if (sim_time % 500 == 0)// print every n steps = 2
 		{
 			std::cout << sim_time << std::endl;

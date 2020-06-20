@@ -12,6 +12,14 @@ Swarm::~Swarm()
 {
 }
 
+void Swarm::TestCollision(const Obstacle& obs)
+{
+	if (dmo <= 6) // make this function TestCollision
+	{
+		isImmobile = true;
+	}
+}
+
 void Swarm::DistTar(const Target& tar)// good
 {
 	const Vec3 delXYZ = tar.GetPos() - pos;
@@ -22,11 +30,6 @@ void Swarm::DistObs(const Obstacle& obs)
 {
 	const Vec3 delXYZ = obs.GetPos() - pos;
 	dmo = sqrt((pow(delXYZ.x, 2.0f) + pow(delXYZ.y, 2.0f) + pow(delXYZ.z, 2.0f)));
-
-	if (dmo <= interaction_radius) // make this function TestCollision
-	{
-		isImmobile = true;
-	}
 }
 
 void Swarm::DistMem(const Swarm& mem2)
