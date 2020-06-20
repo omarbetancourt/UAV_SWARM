@@ -1,4 +1,4 @@
-#include "Vec2.h"
+#include "Vec3.h"
 #include <random>
 #include "Swarm.h"
 #include "Target.h"
@@ -25,11 +25,15 @@ int main()
 
 	for (int sim_time = 0; sim_time <= 30000; ++sim_time) //time step. each iter is 0.001 sec
 	{
+		if (targets.size() == 0)
+		{
+			break;
+		}
 		for (unsigned int mem = 0; mem < swarms.size(); mem++) // change to range for loop?
 		{
-			Vec2 Nmt(0, 0);
-			Vec2 Nmo(0, 0);
-			Vec2 Nmm(0, 0);
+			Vec3 Nmt(0, 0, 0);
+			Vec3 Nmo(0, 0, 0);
+			Vec3 Nmm(0, 0, 0);
 
 			for (unsigned int tar = 0; tar < targets.size(); tar++)
 			{
@@ -60,12 +64,12 @@ int main()
 				Nmm += swarms[mem].GetWgtDirMem(); // result for Nmt for one member
 			}
 
-			Vec2 WNmt = Nmt*Swarm::Wmt;
-			Vec2 WNmo = Nmo*Swarm::Wmo;
-			Vec2 WNmm = Nmm*Swarm::Wmm; // change to Swarm::Wmo later
-
-			Vec2 Ntot = WNmt + WNmo + WNmo;
-			Vec2 n_norm = Ntot / sqrt(pow(Ntot.x, 2.0f) + pow(Ntot.y, 2.0f));
+			Vec3 WNmt = Nmt*Swarm::Wmt;
+			Vec3 WNmo = Nmo*Swarm::Wmo;
+			Vec3 WNmm = Nmm*Swarm::Wmm; // change to Swarm::Wmo later
+			   
+			Vec3 Ntot = WNmt + WNmo + WNmo;
+			Vec3 n_norm = Ntot / sqrt(pow(Ntot.x, 2.0f) + pow(Ntot.y, 2.0f) + pow(Ntot.z, 2.0f));
 
 			swarms[mem].Step(n_norm);
 
@@ -95,6 +99,7 @@ int main()
 		
 		if (sim_time % 500 == 0)// print every n steps = 2
 		{
+			std::cout << sim_time << std::endl;
 			std::stringstream ss;
 			ss << "results//sim-" << timestep << ".csv"; //outputs to results folder
 			std::ofstream prntpos;

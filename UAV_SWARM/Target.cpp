@@ -2,7 +2,7 @@
 #include "Swarm.h"
 
 
-Target::Target(const Vec2& in_pos)
+Target::Target(const Vec3& in_pos)
 {
     pos = in_pos;
 }
@@ -21,7 +21,7 @@ bool Target::IsMapped()
     return isMapped;
 }
 
-Vec2 Target::GetPos() const
+Vec3 Target::GetPos() const
 {
     return pos;
 }

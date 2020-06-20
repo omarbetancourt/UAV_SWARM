@@ -2,7 +2,7 @@
 #include "Obstacle.h"
 #include <cmath>
 
-Swarm::Swarm( const Vec2& in_pos, const Vec2& in_vel) // the constructor. Parameters in () will be values passed in when constructing
+Swarm::Swarm( const Vec3& in_pos, const Vec3& in_vel) // the constructor. Parameters in () will be values passed in when constructing
 {
 	pos = in_pos; // LHS variable is the private data members below
 	vel = in_vel;// RHS values passed in through Main.ccp
@@ -14,16 +14,16 @@ Swarm::~Swarm()
 
 void Swarm::DistTar(const Target& tar)// good
 {
-	const Vec2 delXY = tar.GetPos() - pos;
-	dmt = sqrt((pow(delXY.x, 2.0f) + pow(delXY.y, 2.0f)));
+	const Vec3 delXYZ = tar.GetPos() - pos;
+	dmt = sqrt((pow(delXYZ.x, 2.0f) + pow(delXYZ.y, 2.0f) + pow(delXYZ.z, 2.0f)));
 }
 
 void Swarm::DistObs(const Obstacle& obs)
 {
-	const Vec2 delXY = obs.GetPos() - pos;
-	dmo = sqrt((pow(delXY.x, 2.0f) + pow(delXY.y, 2.0f)));
+	const Vec3 delXYZ = obs.GetPos() - pos;
+	dmo = sqrt((pow(delXYZ.x, 2.0f) + pow(delXYZ.y, 2.0f) + pow(delXYZ.z, 2.0f)));
 
-	if (dmo <= interaction_radius)
+	if (dmo <= interaction_radius) // make this function TestCollision
 	{
 		isImmobile = true;
 	}
@@ -31,46 +31,46 @@ void Swarm::DistObs(const Obstacle& obs)
 
 void Swarm::DistMem(const Swarm& mem2)
 {
-	const Vec2 delXY = mem2.GetPos() - pos;
-	dmm = sqrt((pow(delXY.x, 2.0f) + pow(delXY.y, 2.0f)));
+	const Vec3 delXYZ = mem2.GetPos() - pos;
+	dmm = sqrt((pow(delXYZ.x, 2.0f) + pow(delXYZ.y, 2.0f) + pow(delXYZ.z, 2.0f)));
 
 	// Could have immobile = true if swarms are too close to each other.
 }
 
-Vec2 Swarm::DirTar(const Target& tar)
+Vec3 Swarm::DirTar(const Target& tar)
 {
-	const Vec2 delXY = tar.GetPos() - pos;
-	return nt_ij = delXY / dmt;
+	const Vec3 delXYZ = tar.GetPos() - pos;
+	return nt_ij = delXYZ / dmt;
 }
 
-Vec2 Swarm::DirObs(const Obstacle& obs)
+Vec3 Swarm::DirObs(const Obstacle& obs)
 {
-	const Vec2 delXY = obs.GetPos() - pos;
-	return no_ij = delXY / dmo;
+	const Vec3 delXYZ = obs.GetPos() - pos;
+	return no_ij = delXYZ / dmo;
 }
 
-Vec2 Swarm::DirMem(const Swarm& mem2)
+Vec3 Swarm::DirMem(const Swarm& mem2)
 {
-	const Vec2 delXY = mem2.GetPos() - pos;
-	return nm_ij = delXY / dmm;
+	const Vec3 delXYZ = mem2.GetPos() - pos;
+	return nm_ij = delXYZ / dmm;
 }
 
-Vec2 Swarm::WgtDirTar()
+Vec3 Swarm::WgtDirTar()
 {
 	return nhat_t = nt_ij * (wt1 * exp(-a1 * dmt) - wt2 * exp(-a2 * dmt));
 }
 
-Vec2 Swarm::WgtDirObs() // make this void private function?
+Vec3 Swarm::WgtDirObs() // make this void private function?
 {
 	return nhat_o = no_ij * (wo1 * exp(-b1 * dmo) - wo2 * exp(-b2 * dmo));
 }
 
-Vec2 Swarm::WgtDirMem()
+Vec3 Swarm::WgtDirMem()
 {
 	return nhat_m = nm_ij * (wm1 * exp(-c1 * dmm) - wm2 * exp(-c2 * dmm));
 }
 
-Vec2 Swarm::GetPos() const //getter function
+Vec3 Swarm::GetPos() const //getter function
 {
     return pos;
 }
@@ -91,17 +91,17 @@ float Swarm::GetDmm() const
 }
 
 
-Vec2 Swarm::GetWgtDirTar() const
+Vec3 Swarm::GetWgtDirTar() const
 {
 	return nhat_t;
 }
 
-Vec2 Swarm::GetWgtDirObs() const
+Vec3 Swarm::GetWgtDirObs() const
 {
 	return nhat_o;
 }
 
-Vec2 Swarm::GetWgtDirMem() const
+Vec3 Swarm::GetWgtDirMem() const
 {
 	return nhat_m;
 }
@@ -121,12 +121,12 @@ float Swarm::GetWmm() const
 	return Wmm;
 }
 
-void Swarm::Step(const Vec2& n_star) //good
+void Swarm::Step(const Vec3& n_star)
 {
-	const Vec2 psiTot = n_star * thrustForce;
+	const Vec3 psiTot = n_star * thrustForce;
 	vel += psiTot * dt / mass;
-	const float mag_vel = sqrt(pow(vel.x, 2.0f) + pow(vel.y, 2.0f));
-	const Vec2 dir_vel = vel / mag_vel;
+	const float mag_vel = sqrt(pow(vel.x, 2.0f) + pow(vel.y, 2.0f) + pow(vel.z, 2.0f));
+	const Vec3 dir_vel = vel / mag_vel;
 
 	if (mag_vel >= vel_max)
 	{

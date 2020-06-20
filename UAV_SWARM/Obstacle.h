@@ -1,16 +1,16 @@
 #pragma once
-#include "Vec2.h"
+#include "Vec3.h"
 
 class Swarm; // Use of foward declaration here 
 class Obstacle
 {
 public:
-	Obstacle(const Vec2& in_pos);
+	Obstacle(const Vec3& in_pos);
 	~Obstacle();
 
 	bool TestCollision(const Swarm& swarm) const;
 
-	Vec2 GetPos() const;
+	Vec3 GetPos() const;
 private:
-	Vec2 pos;
+	Vec3 pos;
 };
