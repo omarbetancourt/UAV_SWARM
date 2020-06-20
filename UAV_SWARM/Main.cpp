@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 
-static constexpr unsigned int nSwarmMembers = 1u; //variable available at compile time
+static constexpr unsigned int nSwarmMembers = 100u; //variable available at compile time
 static constexpr unsigned int nTargets = 100u;
 static constexpr unsigned int nObstacles = 1u;
 
@@ -23,9 +23,9 @@ int main()
 	FillTargetVector(obstacles);  
 	int timestep = 0; //might change to file name later.
 
-	for (int sim_time = 0; sim_time <= 1000; ++sim_time) //time step. each iter is 0.001 sec
+	for (int sim_time = 0; sim_time <= 30000; ++sim_time) //time step. each iter is 0.001 sec
 	{
-		for (unsigned int mem = 0; mem < swarms.size(); mem++)
+		for (unsigned int mem = 0; mem < swarms.size(); mem++) // change to range for loop?
 		{
 			Vec2 Nmt(0, 0);
 			Vec2 Nmo(0, 0);
@@ -34,6 +34,7 @@ int main()
 			for (unsigned int tar = 0; tar < targets.size(); tar++)
 			{
 				swarms[mem].DistTar(targets[tar]);
+				targets[tar].TestCollision(swarms[mem]);
 				swarms[mem].DirTar(targets[tar]);
 				swarms[mem].WgtDirTar();
 
@@ -42,7 +43,7 @@ int main()
 
 			for (unsigned int obs = 0; obs < obstacles.size(); obs++)
 			{
-				swarms[mem].DistObs(obstacles[obs]);
+				swarms[mem].DistObs(obstacles[obs]); // may make TestCollision() for Swarm
 				swarms[mem].DirObs(obstacles[obs]);
 				swarms[mem].WgtDirObs();
 
@@ -68,12 +69,13 @@ int main()
 
 			swarms[mem].Step(n_norm);
 
-			for (unsigned int tar = 0; tar < targets.size(); tar++)
+			// Removing swarm-members and Targets:
+			for (unsigned int tars = 0; tars < targets.size(); tars++)
 			{
-				if (targets[tar].IsMapped())
+				if (targets[tars].IsMapped())
 				{
-					std::cout << targets.size() << std::endl;
-					targets.erase(targets.begin() + tar);
+					std::cout << sim_time << ": " << targets.size() << std::endl;
+					targets.erase(targets.begin() + tars);
 				}
 			}
 
@@ -91,25 +93,29 @@ int main()
 
 
 		
-		//if (sim_time % 1 == 0)// print every n steps = 2
-		//{
-		//	std::stringstream ss;
-		//	ss << "results//sim-" << timestep << ".csv"; //outputs to results folder
-		//	std::ofstream prntpos;
-		//	prntpos.open(ss.str().c_str());
-		//	timestep += 1;
+		if (sim_time % 500 == 0)// print every n steps = 2
+		{
+			std::stringstream ss;
+			ss << "results//sim-" << timestep << ".csv"; //outputs to results folder
+			std::ofstream prntpos;
+			prntpos.open(ss.str().c_str());
 
-		//	//for (unsigned int mem = 0; mem < swarms.size(); mem++)
-		//	//{
-		//	//	prntpos << sim_time << swarms[mem].GetPos().x << "," << swarms[mem].GetPos().y << std::endl;
-		//	//}
 
-		//	for (unsigned int tar = 0; tar < targets.size(); tar++)
-		//	{
-		//		prntpos << sim_time << targets[tar].GetPos().x << "," << targets[tar].GetPos().y << std::endl;
-		//	}
-		//	prntpos.close();
-		//}
+			for (unsigned int mem = 0; mem < swarms.size(); mem++)
+			{
+				prntpos << swarms[mem].GetPos().x << "," << swarms[mem].GetPos().y << std::endl;
+			}
+
+			prntpos << " " << std::endl;
+
+			for (unsigned int tar = 0; tar < targets.size(); tar++)
+			{
+				prntpos << targets[tar].GetPos().x << "," << targets[tar].GetPos().y << std::endl;
+			}
+			prntpos.close();
+
+			timestep += 1;
+		}
 	}
 }
 

@@ -8,6 +8,7 @@ public:
 	Target(const Vec2& in_pos);
 	~Target();
 	void TestCollision(const Swarm& swarm);
+
 	bool IsMapped();
 	Vec2 GetPos() const;
 
