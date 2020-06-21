@@ -1,3 +1,5 @@
+/* This code is an implementation of The Game of Drones: rapid agent-based machine-learning models for multi-UAV path planning
+by T. I. Zohdi. 2019 ( https://doi.org/10.1007/s00466-019-01761-9 )*/
 #include "Vec3.h"
 #include <random>
 #include "Swarm.h"
@@ -6,75 +8,72 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
-static constexpr unsigned int nSwarmMembers = 100u; //variable available at compile time
-static constexpr unsigned int nTargets = 100u;
-static constexpr unsigned int nObstacles = 100u;
-
 #include "StartPositions.h"
 
 int main()
 {
-	std::vector<Swarm> swarms; // vector of objects. Initialized with size nSwarmMembers and entries ar all 0;
-	FillSwarmVector(swarms); // fills Vector with swarms. Definition in StartPositions.h
+	// Create vectors of agents. Initialized in StartPositions.h;
+	std::vector<Swarm> swarm; 
+	FillSwarmVector(swarm); 
 	std::vector<Target> targets;
 	FillTargetVector(targets);
 	std::vector<Obstacle> obstacles;
 	FillTargetVector(obstacles);  
-	int timestep = 0; //might change to file name later.
 
-	for (int sim_time = 0; sim_time <= 30000; ++sim_time) //time step. each iter is 0.001 sec
+	unsigned int maxSimTime = 30000; // ms
+	unsigned int outputFile = 0;
+
+	for (int sim_time = 0; sim_time <= maxSimTime; ++sim_time)		// Each iteration is 0.001 sec
 	{
-		if (targets.size() == 0)
+		for (unsigned int mem = 0; mem < swarm.size(); mem++)		// Iterating through each swarm-member
 		{
-			break;
-		}
-		for (unsigned int mem = 0; mem < swarms.size(); mem++) // change to range for loop?
-		{
+			// Initializing interaction parameters: Nmt, Nmo, Nmm
 			Vec3 Nmt(0, 0, 0);
 			Vec3 Nmo(0, 0, 0);
 			Vec3 Nmm(0, 0, 0);
 
-			for (unsigned int tar = 0; tar < targets.size(); tar++)
+			// Member-target interaction	( Section 4.1 )
+			for (unsigned int tar = 0; tar < targets.size(); tar++)	// Iterating through each target
 			{
-				swarms[mem].DistTar(targets[tar]);
-				targets[tar].TestCollision(swarms[mem]);
-				swarms[mem].DirTar(targets[tar]);
-				swarms[mem].WgtDirTar();
-
-				Nmt += swarms[mem].GetWgtDirTar(); // result for Nmt for one member
+				swarm[mem].DistTar(targets[tar]);					// Distance to target						( Eq. 4.1 )
+				targets[tar].TestCollision(swarm[mem]);				// Checking if target is mapped				( Eq. 5.1 ) 
+				swarm[mem].DirTar(targets[tar]);					// Directed normal to target				( Eq. 4.2 )
+				swarm[mem].WgtDirTar();								// Weighted directed normal to target		( Eq. 4.3 )
+				Nmt += swarm[mem].GetWgtDirTar();					// Member-target interaction parameter		( Eq. 4.4 )
 			}
 
-			for (unsigned int obs = 0; obs < obstacles.size(); obs++)
+			// Member-obstacle interaction	( Section 4.2 )
+			for (unsigned int obs=0; obs < obstacles.size(); obs++)	// Iterating through each obstacle
 			{
-				swarms[mem].DistObs(obstacles[obs]);
-				swarms[mem].TestCollision(obstacles[obs]);
-				swarms[mem].DirObs(obstacles[obs]);
-				swarms[mem].WgtDirObs();
-
-				Nmo += swarms[mem].GetWgtDirObs(); // result for Nmt for one member
+				swarm[mem].DistObs(obstacles[obs]);					// Distance to obstacle						( Eq. 4.5 )
+				swarm[mem].TestCollision(obstacles[obs]);			// Checking if swarm is immobilized			(	 -    )
+				swarm[mem].DirObs(obstacles[obs]);					// Directed normal to obstacle				( Eq. 4.6 )
+				swarm[mem].WgtDirObs();								// Weighted directed normal to obstacle		( Eq. 4.7 )
+				Nmo += swarm[mem].GetWgtDirObs();					// Member-obstacle interaction parameter	( Eq. 4.8 )
 			}
 
-			for (unsigned int mem2 = 0; mem2 < swarms.size(); mem2++) // add swarm id later?
-				// if comparing to istelf, n_hat = Vec2(-nan(ind), -nan(ind))
+			// Member-member interaction	( Section 4.3 )
+			for (unsigned int mem2 = 0; mem2 < swarm.size(); mem2++)// Iterating through each member
+				// if comparing to istelf, Directed normal = Vec2(-nan(ind), -nan(ind))
 			{
-				swarms[mem].DistMem(swarms[mem2]);
-				swarms[mem].DirMem(swarms[mem2]);
-				swarms[mem].WgtDirMem();
+				swarm[mem].DistMem(swarm[mem2]);					// Distance to other member					( Eq. 4.9 )
+				swarm[mem].DirMem(swarm[mem2]);						// Directed normal to other member			( Eq. 4.10 )
+				swarm[mem].WgtDirMem();								// Weighted directed normal to other member	( Eq. 4.11 )
+				Nmm += swarm[mem].GetWgtDirMem();					// Member-member interaction parameter		( Eq. 4.12 )
+			}														
 
-				Nmm += swarms[mem].GetWgtDirMem(); // result for Nmt for one member
-			}
-
+			// Weighting each interaction parameter:
 			Vec3 WNmt = Nmt*Swarm::Wmt;
 			Vec3 WNmo = Nmo*Swarm::Wmo;
-			Vec3 WNmm = Nmm*Swarm::Wmm; // change to Swarm::Wmo later
-			   
+			Vec3 WNmm = Nmm*Swarm::Wmm;
 			Vec3 Ntot = WNmt + WNmo + WNmo;
+			// Normalizing result:
 			Vec3 n_norm = Ntot / sqrt(pow(Ntot.x, 2.0f) + pow(Ntot.y, 2.0f) + pow(Ntot.z, 2.0f));
 
-			swarms[mem].Step(n_norm);
+			// Swarm-member moves:
+			swarm[mem].Step(n_norm);
 
-			// Removing swarm-members and Targets:
+			// Removing targets if they're mapped:
 			for (unsigned int tars = 0; tars < targets.size(); tars++)
 			{
 				if (targets[tars].IsMapped())
@@ -83,31 +82,34 @@ int main()
 					targets.erase(targets.begin() + tars);
 				}
 			}
-
-			for (unsigned int mem = 0; mem < swarms.size(); mem++)
+			// Removing swarm-members if they're immobilzed:
+			for (unsigned int mem = 0; mem < swarm.size(); mem++)
 			{
-				if (swarms[mem].IsImmobile())
+				if (swarm[mem].IsImmobile())
 				{
-					//std::cout << swarms.size() << std::endl;
-					swarms.erase(swarms.begin() + mem);
+					swarm.erase(swarm.begin() + mem);
 				}
 			}
+		}
 
+		// Stop simulation if all targets are mapped:
+		if (targets.size() == 0)
+		{
+			break;
 		}
 
 		// Output Data:
-		if (sim_time % 500 == 0)// print every n steps = 2
+		if (sim_time % 500 == 0)// print every 500 timesteps.
 		{
 			std::cout << sim_time << std::endl;
 			std::stringstream ss;
-			ss << "results//sim-" << timestep << ".csv"; //outputs to results folder
+			ss << "results//sim-" << outputFile << ".csv"; //outputs to results folder
 			std::ofstream prntpos;
 			prntpos.open(ss.str().c_str());
 
-
-			for (unsigned int mem = 0; mem < swarms.size(); mem++)
+			for (unsigned int mem = 0; mem < swarm.size(); mem++)
 			{
-				prntpos << swarms[mem].GetPos().x << "," << swarms[mem].GetPos().y << std::endl;
+				prntpos << swarm[mem].GetPos().x << "," << swarm[mem].GetPos().y << std::endl;
 			}
 
 			prntpos << " " << std::endl;
@@ -118,7 +120,7 @@ int main()
 			}
 			prntpos.close();
 
-			timestep += 1;
+			outputFile += 1;
 		}
 	}
 }
