@@ -2,7 +2,7 @@
 
 static constexpr unsigned int nSwarmMembers = 100u; //variable available at compile time
 static constexpr unsigned int nTargets = 100u;
-static constexpr unsigned int nObstacles = 0u;
+static constexpr unsigned int nObstacles = 100u;
 
 std::random_device rd; // seed generator used to pass into rng to create different random numbers every time.
 std::mt19937 rng(rd()); //outputs a random number (-2b, +2b), but outputs same sequence of random numbers every time
@@ -24,7 +24,6 @@ void FillSwarmVector(std::vector<Swarm>& swarm) // Definition
 	{
 		Vec3 in_pos(xDist(rng), yDist(rng), zDist(rng));
 		Vec3 in_vel(0.0f, 0.0f, 0.0f);
-
 		Swarm member(in_pos, in_vel);
 		swarm.push_back(member);
 	}

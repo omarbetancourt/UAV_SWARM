@@ -93,35 +93,47 @@ int main()
 		}
 
 		// Stop simulation if all targets are mapped:
-		if (targets.size() == 0)
+		if (targets.size() == 0 || swarm.size() == 0)
 		{
 			break;
 		}
 
 		// Output Data:
-		if (sim_time % 500 == 0)// print every 500 timesteps.
+		if (sim_time % 100 == 0)// print every 500 timesteps.
 		{
-			std::cout << sim_time << std::endl;
-			std::stringstream ss;
-			ss << "results//sim-" << outputFile << ".csv"; //outputs to results folder
-			std::ofstream prntpos;
-			prntpos.open(ss.str().c_str());
+			std::stringstream memOutputfile;
+			memOutputfile << "results//memPos-" << outputFile << ".csv"; //outputs to results folder
+			std::ofstream prntMem;
+			prntMem.open(memOutputfile.str().c_str());
 
 			for (unsigned int mem = 0; mem < swarm.size(); mem++)
 			{
-				prntpos << swarm[mem].GetPos().x << "," << swarm[mem].GetPos().y << std::endl;
+				prntMem << swarm[mem].GetPos().x << "," << swarm[mem].GetPos().y << "," << swarm[mem].GetPos().z << std::endl;
 			}
+			prntMem.close();
 
-			prntpos << " " << std::endl;
-
+			std::stringstream tarOutputfile;
+			tarOutputfile << "results//tarPos-" << outputFile << ".csv"; //outputs to results folder
+			std::ofstream prntTar;
+			prntTar.open(tarOutputfile.str().c_str());
 			for (unsigned int tar = 0; tar < targets.size(); tar++)
 			{
-				prntpos << targets[tar].GetPos().x << "," << targets[tar].GetPos().y << std::endl;
+				prntTar << targets[tar].GetPos().x << "," << targets[tar].GetPos().y << "," << targets[tar].GetPos().z << std::endl;
 			}
-			prntpos.close();
+			prntTar.close();
 
 			outputFile += 1;
 		}
 	}
+
+	std::stringstream obsOutputfile;
+	obsOutputfile << "results//obsPos.csv"; //outputs to results folder
+	std::ofstream prntObs;
+	prntObs.open("results//obsPos.csv");
+	for (unsigned int obs = 0; obs < obstacles.size(); obs++)
+	{
+		prntObs << obstacles[obs].GetPos().x << "," << obstacles[obs].GetPos().y << "," << obstacles[obs].GetPos().z << std::endl;
+	}
+	prntObs.close();
 }
 
