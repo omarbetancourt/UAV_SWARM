@@ -23,6 +23,44 @@ int main()
 	unsigned int maxSimTime = 30000; // ms
 	unsigned int outputFile = 0;
 
+	static constexpr int xlim = 500;
+	static constexpr int ylim = 500;
+	static constexpr int zlim = 10;
+
+	int cellSize = 10;
+	int cols = xlim / cellSize;
+	int rows = ylim / cellSize;
+	int layers = zlim / cellSize;
+
+	//std::vector< std::vector< std::vector<Swarm> > > gridSpace(int x, int y, int z, Swarm value = Swarm{});
+
+	//for (Swarm mem : swarm)
+	//{
+	//	int x = int(mem.GetPos().x) / cellSize;
+	//	int y = int(mem.GetPos().y) / cellSize;
+	//	int z = int(mem.GetPos().z) / cellSize;
+	//	for (int n = -1; n <= 1; ++n)
+	//	{
+	//		for (int m = -1; m <= 1; ++m)
+	//		{
+	//			for (int l = -1; l <= 1; ++l)
+	//			{
+	//				if (x + n >= 0 &&
+	//					x + n < cols &&
+	//					y + m >= 0 &&
+	//					y + m < rows &&
+	//					z + l >= 0 &&
+	//					z + l < layers)
+	//				{
+	//					gridSpace[x + n][y + m][z + l].push_back(mem&); //????
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
+
+
 	for (int sim_time = 0; sim_time <= maxSimTime; ++sim_time)		// Each iteration is 0.001 sec
 	{
 		for (unsigned int mem = 0; mem < swarm.size(); mem++)		// Iterating through each swarm-member
@@ -78,8 +116,8 @@ int main()
 			{
 				if (targets[tars].IsMapped())
 				{
-					std::cout << sim_time << ": " << targets.size() << std::endl;
 					targets.erase(targets.begin() + tars);
+					std::cout << sim_time << ": " << targets.size() << std::endl;
 				}
 			}
 			// Removing swarm-members if they're immobilzed:
