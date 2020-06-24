@@ -9,6 +9,7 @@ by T. I. Zohdi. 2019 ( https://doi.org/10.1007/s00466-019-01761-9 )*/
 #include <iostream>
 #include <sstream>
 #include "StartPositions.h"
+#include <deque>
 
 int main()
 {
@@ -27,42 +28,42 @@ int main()
 	static constexpr int ylim = 500;
 	static constexpr int zlim = 10;
 
-	int cellSize = 10;
-	int cols = xlim / cellSize;
-	int rows = ylim / cellSize;
-	int layers = zlim / cellSize;
+	static constexpr int cellSize = 10;
+	static constexpr int cols = xlim / cellSize;
+	static constexpr int rows = ylim / cellSize;
+	static constexpr int layers = zlim / cellSize;
 
-	//std::vector< std::vector< std::vector<Swarm> > > gridSpace(int x, int y, int z, Swarm value = Swarm{});
+   //vector of a vector of a vector (3D array)
+	std::vector< std::vector< std::vector< std::deque<Swarm> >>> gridSpace;// (cols, std::vector<std::vector<int> >(rows, std::vector <int>(layers)));;
 
-	//for (Swarm mem : swarm)
-	//{
-	//	int x = int(mem.GetPos().x) / cellSize;
-	//	int y = int(mem.GetPos().y) / cellSize;
-	//	int z = int(mem.GetPos().z) / cellSize;
-	//	for (int n = -1; n <= 1; ++n)
-	//	{
-	//		for (int m = -1; m <= 1; ++m)
-	//		{
-	//			for (int l = -1; l <= 1; ++l)
-	//			{
-	//				if (x + n >= 0 &&
-	//					x + n < cols &&
-	//					y + m >= 0 &&
-	//					y + m < rows &&
-	//					z + l >= 0 &&
-	//					z + l < layers)
-	//				{
-	//					gridSpace[x + n][y + m][z + l].push_back(mem&); //????
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
-
-
-	for (int sim_time = 0; sim_time <= maxSimTime; ++sim_time)		// Each iteration is 0.001 sec
+	for (unsigned int sim_time = 0; sim_time <= maxSimTime; ++sim_time)		// Each iteration is 0.001 sec
 	{
+		// Placing Swarm members into bins
+		for (int mem = 0; mem < swarm.size(); mem++) //FillGridSpace
+		{
+			int x = int(swarm[mem].GetPos().x) / cellSize;
+			int y = int(swarm[mem].GetPos().y) / cellSize;
+			int z = int(swarm[mem].GetPos().z) / cellSize;
+			for (int i = 0; i <= cols; ++i)
+			{
+				for (int j = 0; j <= rows; ++j)
+				{
+					for (int k = 0; k <= layers; ++k)
+					{
+						if (x + i >= 0 &&
+							x + i < cols &&
+							y + j >= 0 &&
+							y + j < rows &&
+							z + k >= 0 &&
+							z + k < layers)
+						{
+							gridSpace[i][j][k].push_back(swarm[mem]); //????
+						}
+					}
+				}
+			}
+		}
+
 		for (unsigned int mem = 0; mem < swarm.size(); mem++)		// Iterating through each swarm-member
 		{
 			// Initializing interaction parameters: Nmt, Nmo, Nmm
@@ -137,41 +138,41 @@ int main()
 		}
 
 		// Output Data:
-		if (sim_time % 100 == 0)// print every 500 timesteps.
-		{
-			std::stringstream memOutputfile;
-			memOutputfile << "results//memPos-" << outputFile << ".csv"; //outputs to results folder
-			std::ofstream prntMem;
-			prntMem.open(memOutputfile.str().c_str());
+	//	if (sim_time % 100 == 0)// print every 500 timesteps.
+	//	{
+	//		std::stringstream memOutputfile;
+	//		memOutputfile << "results//memPos-" << outputFile << ".csv"; //outputs to results folder
+	//		std::ofstream prntMem;
+	//		prntMem.open(memOutputfile.str().c_str());
 
-			for (unsigned int mem = 0; mem < swarm.size(); mem++)
-			{
-				prntMem << swarm[mem].GetPos().x << "," << swarm[mem].GetPos().y << "," << swarm[mem].GetPos().z << std::endl;
-			}
-			prntMem.close();
+	//		for (unsigned int mem = 0; mem < swarm.size(); mem++)
+	//		{
+	//			prntMem << swarm[mem].GetPos().x << "," << swarm[mem].GetPos().y << "," << swarm[mem].GetPos().z << std::endl;
+	//		}
+	//		prntMem.close();
 
-			std::stringstream tarOutputfile;
-			tarOutputfile << "results//tarPos-" << outputFile << ".csv"; //outputs to results folder
-			std::ofstream prntTar;
-			prntTar.open(tarOutputfile.str().c_str());
-			for (unsigned int tar = 0; tar < targets.size(); tar++)
-			{
-				prntTar << targets[tar].GetPos().x << "," << targets[tar].GetPos().y << "," << targets[tar].GetPos().z << std::endl;
-			}
-			prntTar.close();
+	//		std::stringstream tarOutputfile;
+	//		tarOutputfile << "results//tarPos-" << outputFile << ".csv"; //outputs to results folder
+	//		std::ofstream prntTar;
+	//		prntTar.open(tarOutputfile.str().c_str());
+	//		for (unsigned int tar = 0; tar < targets.size(); tar++)
+	//		{
+	//			prntTar << targets[tar].GetPos().x << "," << targets[tar].GetPos().y << "," << targets[tar].GetPos().z << std::endl;
+	//		}
+	//		prntTar.close();
 
-			outputFile += 1;
-		}
+	//		outputFile += 1;
+	//	}
 	}
 
-	std::stringstream obsOutputfile;
-	obsOutputfile << "results//obsPos.csv"; //outputs to results folder
-	std::ofstream prntObs;
-	prntObs.open("results//obsPos.csv");
-	for (unsigned int obs = 0; obs < obstacles.size(); obs++)
-	{
-		prntObs << obstacles[obs].GetPos().x << "," << obstacles[obs].GetPos().y << "," << obstacles[obs].GetPos().z << std::endl;
-	}
-	prntObs.close();
+	//std::stringstream obsOutputfile;
+	//obsOutputfile << "results//obsPos.csv"; //outputs to results folder
+	//std::ofstream prntObs;
+	//prntObs.open("results//obsPos.csv");
+	//for (unsigned int obs = 0; obs < obstacles.size(); obs++)
+	//{
+	//	prntObs << obstacles[obs].GetPos().x << "," << obstacles[obs].GetPos().y << "," << obstacles[obs].GetPos().z << std::endl;
+	//}
+	//prntObs.close();
 }
 
